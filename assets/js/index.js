@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const generateHTML = require('./generateHTML');
 
 const questions = [
     {
@@ -40,7 +41,26 @@ const questions = [
 // inquirer.prompt(questions).then((data) => {
 
 
+function init() {
+
 inquirer
 .prompt(questions)
 .then((answers) => {
     const userAnswers = generateHTML(answers);
+    writeToFile('index.html', userAnswers);
+}).catch((error) => {
+    console.log(error);
+});
+}
+// function call to initialize program
+init();
+
+function writeToFile(filename, data) {
+    // create html file
+    fs.writeFile(filename, data, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+}
+
+
